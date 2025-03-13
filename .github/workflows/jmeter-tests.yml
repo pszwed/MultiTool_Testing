@@ -18,6 +18,11 @@ jobs:
           tar -xzf apache-jmeter-5.6.3.tgz
           sudo mv apache-jmeter-5.6.3 /opt/apache-jmeter
 
+      - name: Clean up old results
+        run: |
+          rm -rf JMeter/test_results/results.csv
+          rm -rf reports/
+
       - name: Run JMeter tests
         run: |
           /opt/apache-jmeter/bin/jmeter -n -t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o reports/
