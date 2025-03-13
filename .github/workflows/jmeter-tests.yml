@@ -11,12 +11,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up JMeter
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk
-          wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz
-          tar -xzf apache-jmeter-5.4.1.tgz
-          export PATH=$PATH:$PWD/apache-jmeter-5.4.1/bin
+        uses: tush-tr/setup-jmeter@v1.1.0
 
       - name: Run JMeter tests
         run: |
