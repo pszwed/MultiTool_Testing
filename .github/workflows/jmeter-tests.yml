@@ -23,13 +23,13 @@ jobs:
           jmeter -n -t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o reports/
 
       - name: Upload JMeter results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: jmeter-results
           path: JMeter/test_results/results.csv
 
       - name: Upload JMeter HTML report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: jmeter-html-report
           path: reports/
