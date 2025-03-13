@@ -1,0 +1,34 @@
+ name: JMeter Tests
+
+ on:
+   workflow_dispatch:
+
+ jobs:
+   run-jmeter-tests:
+     runs-on: ubuntu-latest steps:
+   - name: Checkout repository
+     uses: actions/checkout@v2
+
+   - name: Set up JMeter
+     run: |
+       sudo apt-get update
+       sudo apt-get install -y openjdk-11-jdk
+       wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz
+       tar -xzf apache-jmeter-5.4.1.tgz
+       export PATH=$PATH:$PWD/apache-jmeter-5.4.1/bin
+
+   - name: Run JMeter tests
+     run: |
+       jmeter -n -t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o reports/
+
+   - name: Upload JMeter results
+     uses: actions/upload-artifact@v2
+     with:
+       name: jmeter-results
+       path: results.csv
+
+   - name: Upload JMeter HTML report
+     uses: actions/upload-artifact@v2
+     with:
+       name: jmeter-html-report
+       path: reports/
