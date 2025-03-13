@@ -20,12 +20,15 @@ jobs:
 
       - name: Clean up old results
         run: |
-          rm -rf JMeter/test_results/results.csv
-          rm -rf reports/
+          rm -rf JMeter/test_results/*
+          mkdir -p JMeter/test_results/
 
       - name: Run JMeter tests
         run: |
-          /opt/apache-jmeter/bin/jmeter -n -t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o reports/
+          /opt/apache-jmeter/bin/jmeter -n -t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o JMeter/test_results/reports/
+
+      - name: List results directory
+        run: ls -la JMeter/test_results/
 
       - name: Upload JMeter results
         uses: actions/upload-artifact@v4
@@ -37,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jmeter-html-report
-          path: reports/
+          path: JMeter/test_results/reports/
