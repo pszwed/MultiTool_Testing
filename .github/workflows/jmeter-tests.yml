@@ -18,17 +18,22 @@ jobs:
           tar -xzf apache-jmeter-5.6.3.tgz
           sudo mv apache-jmeter-5.6.3 /opt/apache-jmeter
 
+      - name: Create required directories
+        run: |
+          mkdir -p JMeter/test_results/reports/
+          mkdir -p JMeter/test_results
+
       - name: Clean up old results
         run: |
           rm -rf JMeter/test_results/*
-          mkdir -p JMeter/test_results/
+          rm -rf JMeter/test_results/reports/*   # Dodano usuwanie zawartości folderu reports/
 
       - name: Run JMeter tests
         run: |
           /opt/apache-jmeter/bin/jmeter -n -t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o JMeter/test_results/reports/
 
-      - name: List results directory
-        run: ls -la JMeter/test_results/
+      - name: List full test results directory
+        run: find JMeter/test_results/ -type f
 
       - name: Upload JMeter results
         uses: actions/upload-artifact@v4
