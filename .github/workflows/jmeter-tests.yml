@@ -26,11 +26,14 @@ jobs:
       - name: Clean up old results
         run: |
           rm -rf JMeter/test_results/*
-          rm -rf JMeter/test_results/reports/*   # Dodano usuwanie zawartości folderu reports/
+          rm -rf JMeter/test_results/reports/*
 
       - name: Run JMeter tests
-        run: |
-          /opt/apache-jmeter/bin/jmeter -n -t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o JMeter/test_results/reports/
+        uses: rbhadti94/apache-jmeter-action@v0.5.0
+        with:
+          testFilePath: JMeter/performance_test.jmx
+          outputReportsFolder: JMeter/test_results/reports/
+          args: "--loglevel INFO"
 
       - name: List full test results directory
         run: find JMeter/test_results/ -type f
