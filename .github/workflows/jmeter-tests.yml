@@ -10,30 +10,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up JMeter
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk wget tar coreutils gawk
-          wget https://dlcdn.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz
-          tar -xzf apache-jmeter-5.6.3.tgz
-          sudo mv apache-jmeter-5.6.3 /opt/apache-jmeter
+      - name: Create reports directory
+        run: mkdir -p JMeter/test_results/reports
 
-      - name: Create required directories
-        run: |
-          mkdir -p JMeter/test_results/reports/
-          mkdir -p JMeter/test_results
-
-      - name: Clean up old results
-        run: |
-          rm -rf JMeter/test_results/*
-          rm -rf JMeter/test_results/reports/*
-
-      - name: Run JMeter tests
-        uses: rbhadti94/apache-jmeter-action@v0.5.0
+      - name: Run JMeter Test
+        uses: QAInsights/PerfAction@v5.6.2
         with:
-          testFilePath: JMeter/performance_test.jmx
-          outputReportsFolder: JMeter/test_results/reports/
-          args: "--loglevel INFO"
+          test-plan-path: JMeter/performance_test.jmx
+          args: "-n -t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o JMeter/test_results/reports/"
 
       - name: List full test results directory
         run: find JMeter/test_results/ -type f
@@ -43,9 +27,11 @@ jobs:
         with:
           name: jmeter-results
           path: JMeter/test_results/results.csv
+          if-no-files-found: error
 
-      - name: Upload JMeter HTML report
+      - name: Upload HTML Reports
         uses: actions/upload-artifact@v4
         with:
-          name: jmeter-html-report
-          path: JMeter/test_results/reports/
+          name: jmeter-html-reports
+          path: JMeter/test_results/reports
+          if-no-files-found: error
