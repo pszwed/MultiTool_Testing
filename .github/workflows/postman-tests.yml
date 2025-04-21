@@ -1,0 +1,52 @@
+name: Run Postman Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  postman-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      juice-shop:
+        image: bkimminich/juice-shop
+        ports:
+          - 3000:3000
+        options: >-
+          --health-cmd "curl --fail http://localhost:3000 || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Wait for Juice Shop to be ready
+        run: |
+          echo "Waiting for OWASP Juice Shop to be ready..."
+          sleep 20
+          curl --retry 10 --retry-delay 5 --fail http://localhost:3000
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Newman and HTML reporter
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+
+      - name: Run Postman tests and generate HTML report
+        run: |
+          newman run Multitool_Testing/Postman/juice-shop-collection.json \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman-report.html \
+            --insecure
+
+      - name: Upload HTML Report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: postman-html-report
+          path: newman-report.html
