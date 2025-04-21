@@ -1,0 +1,1042 @@
+{
+	"info": {
+		"_postman_id": "eef4077d-dea6-4606-aec7-1f66a35356ae",
+		"name": "OWASP Juice Shop - API Test Collection",
+		"description": "This is a Postman collection for testing the OWASP Juice Shop application running on localhost:3000.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44225511",
+		"_collection_link": "https://patryk-9350773.postman.co/workspace/Patryk's-Workspace~5e95fac1-8dc6-49fb-8d9d-b4003792acb8/collection/44225511-eef4077d-dea6-4606-aec7-1f66a35356ae?action=share&source=collection_link&creator=44225511"
+	},
+	"item": [
+		{
+			"name": "TC01 - Register",
+			"item": [
+				{
+					"name": "TC01 - GET /rest/admin/application-configuration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Domain property exists\", function () {",
+									"    let response = pm.response.json();",
+									"    pm.expect(response).to.have.nested.property(\"config.application.domain\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest/admin/application-configuration",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"admin",
+								"application-configuration"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				},
+				{
+					"name": "TC01 - GET /api/SecurityQuestions/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status is success\", function () {",
+									"    let response = pm.response.json();",
+									"    pm.expect(response.status).to.eql(\"success\")",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/SecurityQuestions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"SecurityQuestions"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				},
+				{
+					"name": "TC01 - POST /api/Users/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"let response = pm.response.json();",
+									"let userId = response.data.id;",
+									"",
+									"pm.environment.set(\"userId\", userId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"{{email}}\",\r\n\t\"password\": \"{{password}}\",\r\n\t\"passwordRepeat\": \"{{password}}\",\r\n\t\"securityQuestion\": {\r\n\t\t\"id\": 1,\r\n\t\t\"question\": \"Your eldest siblings middle name?\",\r\n\t\t\"createdAt\": \"2025-04-19T07:33:18.865Z\",\r\n\t\t\"updatedAt\": \"2025-04-19T07:33:18.865Z\"\r\n\t},\r\n\t\"securityAnswer\": \"A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Users"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				},
+				{
+					"name": "TC01 - POST /api/SecurityAnswers/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"UserId\": {{userId}},\r\n\t\"answer\": \"John\",\r\n\t\"SecurityQuestionId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/SecurityAnswers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"SecurityAnswers"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC02 - Login",
+			"item": [
+				{
+					"name": "TC02 - POST /rest/user/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"let response = pm.response.json();",
+									"let token = response.authentication.token;",
+									"let bid = response.authentication.bid",
+									"",
+									"pm.environment.set(\"authToken\", token);",
+									"pm.environment.set(\"bid\", bid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\":\"{{email}}\",\"password\":\"{{password}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest/user/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"user",
+								"login"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				},
+				{
+					"name": "TC02 - GET /api/Quantitys/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is below 1000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/Quantitys/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Quantitys",
+								""
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC03 - Add to Basket",
+			"item": [
+				{
+					"name": "TC03 - POST /api/BasketItems/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is JSON\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"ProductId\": 1,\r\n\t\"BasketId\": \"{{bid}}\",\r\n\t\"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/BasketItems",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"BasketItems"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				},
+				{
+					"name": "TC03 - POST /api/BasketItems/ Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"ProductId\": 24,\r\n\t\"BasketId\": \"{{bid}}\",\r\n\t\"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/BasketItems",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"BasketItems"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC04 - Go to Basket",
+			"item": [
+				{
+					"name": "TC04 - GET /rest/basket",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"let response = pm.response.json();",
+									"let BasketItemId = response.data.Products[0].BasketItem.id;",
+									"",
+									"pm.environment.set(\"BasketItemId\", BasketItemId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest/basket/{{bid}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"basket",
+								"{{bid}}"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				},
+				{
+					"name": "TC04 - GET /rest/user/whoami",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest/user/whoami",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"user",
+								"whoami"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC05 - Delete from Basket",
+			"item": [
+				{
+					"name": "TC05 - DELETE /api/BasketItems",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/BasketItems/{{BasketItemId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"BasketItems",
+								"{{BasketItemId}}"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC06 - Checkout",
+			"item": [
+				{
+					"name": "TC06 - POST /api/Addresss/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"country\": \"Poland\",\r\n\t\"fullName\": \"Jan\",\r\n\t\"mobileNum\": 123456789,\r\n\t\"zipCode\": \"11-111\",\r\n\t\"streetAddress\": \"Ulica\",\r\n\t\"city\": \"Wroclaw\",\r\n\t\"state\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Addresss",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Addresss"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC07 - Delivery",
+			"item": [
+				{
+					"name": "TC07 - GET /api/Deliverys",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/Deliverys",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Deliverys"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC08 - Payment",
+			"item": [
+				{
+					"name": "TC08 - POST /api/Cards/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"fullName\": \"Jan\",\r\n\t\"cardNum\": 1234567890987654,\r\n\t\"expMonth\": \"12\",\r\n\t\"expYear\": \"2080\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Cards",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Cards"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				},
+				{
+					"name": "TC08 - GET /api/Cards",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/Cards",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Cards"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC09 - Order",
+			"item": [
+				{
+					"name": "TC09 - POST /rest/basket/checkout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"couponData\": \"bnVsbA==\",\r\n\t\"orderDetails\": {\r\n\t\t\"paymentId\": \"${paymentId}\",\r\n\t\t\"addressId\": \"7\",\r\n\t\t\"deliveryMethodId\": \"1\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rest/basket/{{BasketId}}/checkout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"basket",
+								"{{BasketId}}",
+								"checkout"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				},
+				{
+					"name": "TC09 - GET /rest/track-order/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest/track-order/${orderConfirmation}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"track-order",
+								"${orderConfirmation}"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC10 - Profile",
+			"item": [
+				{
+					"name": "TC10 - GET /profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept-encoding": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip, deflate, br, zstd",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "token={{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				},
+				{
+					"name": "TC10 - POST /profile/image/file",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1f01d5d7-9f3c-4bf0-a738-bb295e1634b0"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/profile/image/file",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile",
+								"image",
+								"file"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TC11 - Logout",
+			"item": [
+				{
+					"name": "TC11 - GET /rest/saveLoginIp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rest/saveLoginIp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"rest",
+								"saveLoginIp"
+							]
+						},
+						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
