@@ -947,7 +947,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "postman-cloud:///1f01d5d7-9f3c-4bf0-a738-bb295e1634b0"
+									"src": "JMeter/test_data/photo.png"
 								}
 							]
 						},
