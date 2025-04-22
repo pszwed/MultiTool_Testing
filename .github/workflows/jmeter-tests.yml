@@ -37,7 +37,7 @@ jobs:
         uses: QAInsights/PerfAction@v5.6.2
         with:
           test-plan-path: JMeter/performance_test.jmx
-          args: "-t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o JMeter/test_results/reports/"
+          args: "-l JMeter/test_results/results.csv -e -o JMeter/test_results/reports/"
 
       - name: List full test results directory
         run: find JMeter/test_results/ -type f
