@@ -1,4 +1,4 @@
-name: Postman Tests
+name: Run Postman Tests
 
 on:
   workflow_dispatch:
@@ -12,11 +12,6 @@ jobs:
         image: bkimminich/juice-shop
         ports:
           - 3000:3000
-        options: >-
-          --health-cmd "curl --fail http://localhost:3000 || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - name: Checkout repo
@@ -24,9 +19,17 @@ jobs:
 
       - name: Wait for Juice Shop to be ready
         run: |
-          echo "Waiting for OWASP Juice Shop to be ready..."
-          sleep 20
-          curl --retry 10 --retry-delay 5 --fail http://localhost:3000
+          echo "Waiting for OWASP Juice Shop to start..."
+          for i in {1..20}; do
+            if curl -s http://localhost:3000 | grep -q '<title>OWASP Juice Shop</title>'; then
+              echo "Juice Shop is ready!"
+              exit 0
+            fi
+            echo "Still waiting for Juice Shop..."
+            sleep 5
+          done
+          echo "Juice Shop failed to start in time."
+          exit 1
 
       - name: Install Node.js
         uses: actions/setup-node@v3
