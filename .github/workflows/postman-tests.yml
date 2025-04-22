@@ -1,4 +1,4 @@
-name: Run Postman Tests
+name: Postman Tests
 
 on:
   workflow_dispatch:
@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Postman tests and generate HTML report
         run: |
-          newman run Multitool_Testing/Postman/juice-shop-collection.json \
+          newman run MultiTool_Testing/Postman/juice-shop-collection.json \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export newman-report.html \
             --insecure
