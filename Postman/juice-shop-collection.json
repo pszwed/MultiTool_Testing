@@ -715,7 +715,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"let response = response.json();",
+									"let response = pm.response.json();",
 									"let paymentId = response.data.id;",
 									"",
 									"pm.environment.set(\"paymentId\", paymentId);"
