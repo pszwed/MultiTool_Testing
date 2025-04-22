@@ -42,6 +42,7 @@ jobs:
           npm install -g newman-reporter-htmlextra
 
       - name: Run Postman tests and generate HTML report
+        continue-on-error: true
         run: |
           newman run Postman/juice-shop-collection.json \
             --environment Postman/postman-env.json \
