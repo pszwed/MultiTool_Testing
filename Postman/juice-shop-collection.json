@@ -713,7 +713,12 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"let response = response.json();",
+									"let paymentId = response.data.id;",
+									"",
+									"pm.environment.set(\"paymentId\", paymentId);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -783,7 +788,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"couponData\": \"bnVsbA==\",\r\n\t\"orderDetails\": {\r\n\t\t\"paymentId\": \"${paymentId}\",\r\n\t\t\"addressId\": \"7\",\r\n\t\t\"deliveryMethodId\": \"1\"\r\n\t}\r\n}",
+							"raw": "{\r\n\t\"couponData\": \"bnVsbA==\",\r\n\t\"orderDetails\": {\r\n\t\t\"paymentId\": \"{{paymentId}}\",\r\n\t\t\"addressId\": \"7\",\r\n\t\t\"deliveryMethodId\": \"1\"\r\n\t}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -791,14 +796,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/rest/basket/{{BasketId}}/checkout",
+							"raw": "{{baseUrl}}/rest/basket/{{bid}}/checkout",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"rest",
 								"basket",
-								"{{BasketId}}",
+								"{{bid}}",
 								"checkout"
 							]
 						},
@@ -947,7 +952,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "JMeter/test_data/photo.png"
+									"src": "postman-cloud:///1f01d5d7-9f3c-4bf0-a738-bb295e1634b0"
 								}
 							]
 						},
