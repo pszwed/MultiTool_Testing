@@ -44,7 +44,7 @@ jobs:
       - name: Run Postman tests and generate HTML report
         run: |
           newman run Postman/juice-shop-collection.json \
-            --environment MultiTool_Testing/Postman/postman-env.json \
+            --environment Postman/postman-env.json \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export newman-report.html \
             --insecure
