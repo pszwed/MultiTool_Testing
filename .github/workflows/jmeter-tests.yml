@@ -1,4 +1,5 @@
-name: JMeter Tests
+
+name: Run JMeter Tests
 
 on:
   workflow_dispatch:
@@ -6,9 +7,29 @@ on:
 jobs:
   run-jmeter-tests:
     runs-on: ubuntu-latest
+    services:
+      juice-shop:
+        image: bkimminich/juice-shop
+        ports:
+          - 3000:3000
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Wait for Juice Shop to be ready
+        run: |
+          echo "Waiting for OWASP Juice Shop to start..."
+          for i in {1..20}; do
+            if curl -s http://localhost:3000 | grep -q '<title>OWASP Juice Shop</title>'; then
+              echo "Juice Shop is ready!"
+              exit 0
+            fi
+            echo "Still waiting for Juice Shop..."
+            sleep 5
+          done
+          echo "Juice Shop failed to start in time."
+          exit 1
 
       - name: Create reports directory
         run: mkdir -p JMeter/test_results/reports
@@ -19,9 +40,6 @@ jobs:
           test-plan-path: JMeter/performance_test.jmx
           args: "-n -t JMeter/performance_test.jmx -l JMeter/test_results/results.csv -e -o JMeter/test_results/reports/"
 
-      - name: List full test results directory
-        run: find JMeter/test_results/ -type f
-
       - name: Upload JMeter results
         uses: actions/upload-artifact@v4
         with:
@@ -29,7 +47,7 @@ jobs:
           path: JMeter/test_results/results.csv
           if-no-files-found: error
 
-      - name: Upload HTML Reports
+      - name: Upload JMeter HTML Reports
         uses: actions/upload-artifact@v4
         with:
           name: jmeter-html-reports
