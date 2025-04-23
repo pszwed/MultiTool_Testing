@@ -38,7 +38,7 @@ jobs:
         with:
           test-plan-path: JMeter/performance_test.jmx
           results-file: JMeter/test_results/results.csv
-          args: "-f -e -o JMeter/test_results/reports/"
+          args: "-Jhost=juice-shop -Jport=3000 -f -e -o JMeter/test_results/reports/"
 
 
       - name: List full test results directory
