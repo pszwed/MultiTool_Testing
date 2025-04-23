@@ -306,7 +306,7 @@
         <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Once Only Controller" enabled="true"/>
         <hashTree>
           <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
-            <stringProp name="filename">C:\Users\patry\MultiTool_Testing\JMeter\test_data\users.csv</stringProp>
+            <stringProp name="filename">JMeter/test_data/users.csv</stringProp>
             <stringProp name="fileEncoding">UTF-8</stringProp>
             <stringProp name="variableNames">email,password</stringProp>
             <boolProp name="ignoreFirstLine">true</boolProp>
@@ -1191,7 +1191,7 @@ vars.put(&quot;basketProductId&quot;, basketProductId);</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="script">// Path to the JSON file
-def jsonFilePath = &quot;C:/Users/patry/MultiTool_Testing/JMeter/test_data/checkoutBody.json&quot;
+def jsonFilePath = &quot;JMeter/test_data/checkoutBody.json&quot;
 
 // Read the file content
 def jsonContent = new File(jsonFilePath).text
@@ -1470,9 +1470,9 @@ vars.put(&quot;requestBody&quot;, jsonContent)</stringProp>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="TC10 - POST /profile/image/file" enabled="true">
             <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
               <collectionProp name="HTTPFileArgs.files">
-                <elementProp name="C:\Users\patry\MultiTool_Testing\JMeter\test_data\photo.png" elementType="HTTPFileArg">
+                <elementProp name="JMeter\test_data\photo.png" elementType="HTTPFileArg">
                   <stringProp name="File.mimetype">image/png</stringProp>
-                  <stringProp name="File.path">C:\Users\patry\MultiTool_Testing\JMeter\test_data\photo.png</stringProp>
+                  <stringProp name="File.path">JMeter\test_data\photo.png</stringProp>
                   <stringProp name="File.paramname">file</stringProp>
                 </elementProp>
               </collectionProp>
