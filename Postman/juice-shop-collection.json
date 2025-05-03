@@ -1,11 +1,11 @@
 {
 	"info": {
-		"_postman_id": "eef4077d-dea6-4606-aec7-1f66a35356ae",
+		"_postman_id": "f81f44d3-1ed6-4155-8042-c62f6f5c4cdc",
 		"name": "OWASP Juice Shop - API Test Collection",
 		"description": "This is a Postman collection for testing the OWASP Juice Shop application running on localhost:3000.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "44225511",
-		"_collection_link": "https://patryk-9350773.postman.co/workspace/Patryk's-Workspace~5e95fac1-8dc6-49fb-8d9d-b4003792acb8/collection/44225511-eef4077d-dea6-4606-aec7-1f66a35356ae?action=share&source=collection_link&creator=44225511"
+		"_collection_link": "https://patryk-9350773.postman.co/workspace/Patryk's-Workspace~5e95fac1-8dc6-49fb-8d9d-b4003792acb8/collection/44225511-f81f44d3-1ed6-4155-8042-c62f6f5c4cdc?action=share&source=collection_link&creator=44225511"
 	},
 	"item": [
 		{
@@ -713,12 +713,7 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"let response = pm.response.json();",
-									"let paymentId = response.data.id;",
-									"",
-									"pm.environment.set(\"paymentId\", paymentId);"
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -766,7 +761,12 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});"
+									"});",
+									"",
+									"let response = pm.response.json();",
+									"let orderConfirmation = response.orderConfirmation;",
+									"",
+									"pm.environment.set(\"orderConfirmation\", orderConfirmation);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -788,7 +788,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"couponData\": \"bnVsbA==\",\r\n\t\"orderDetails\": {\r\n\t\t\"paymentId\": \"{{paymentId}}\",\r\n\t\t\"addressId\": \"7\",\r\n\t\t\"deliveryMethodId\": \"1\"\r\n\t}\r\n}",
+							"raw": "{\r\n\t\"couponData\": \"bnVsbA==\",\r\n\t\"orderDetails\": {\r\n\t\t\"paymentId\": \"7\",\r\n\t\t\"addressId\": \"7\",\r\n\t\t\"deliveryMethodId\": \"1\"\r\n\t}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -841,14 +841,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/rest/track-order/${orderConfirmation}",
+							"raw": "{{baseUrl}}/rest/track-order/{{orderConfirmation}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"rest",
 								"track-order",
-								"${orderConfirmation}"
+								"{{orderConfirmation}}"
 							]
 						},
 						"description": "Automated test for OWASP Juice Shop running on localhost:3000"
