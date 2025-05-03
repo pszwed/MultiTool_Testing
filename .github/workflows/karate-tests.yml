@@ -1,0 +1,48 @@
+name: Karate Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  karate-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      juice-shop:
+        image: bkimminich/juice-shop
+        ports:
+          - 3000:3000
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Wait for Juice Shop to be ready
+        run: |
+          echo "Waiting for OWASP Juice Shop to start..."
+          for i in {1..20}; do
+            if curl -s http://localhost:3000 | grep -q '<title>OWASP Juice Shop</title>'; then
+              echo "Juice Shop is ready!"
+              exit 0
+            fi
+            echo "Still waiting for Juice Shop..."
+            sleep 5
+          done
+          echo "Juice Shop failed to start in time."
+          exit 1
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Run Karate tests for ${{ matrix.env }}
+        run: mvn test -Dkarate.env=${{ matrix.env }}
+
+      - name: Upload Karate HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: karate-report-${{ matrix.env }}
+          path: target/karate-reports/
