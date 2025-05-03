@@ -1,0 +1,46 @@
+{
+  "requestAddress": {
+    "country": "Poland",
+    "fullName": "Jan",
+    "mobileNum": 123456789,
+    "zipCode": "11-111",
+    "streetAddress": "Ulica",
+    "city": "Wroclaw",
+    "state": ""
+  },
+  "responseAddress": {
+    "status": "success",
+    "data": {
+      "id": '#number',
+      "country": "Poland",
+      "fullName": "Jan",
+      "mobileNum": 123456789,
+      "zipCode": "11-111",
+      "streetAddress": "Ulica",
+      "city": "Wroclaw",
+      "state": "",
+      "UserId": '#number',
+      "updatedAt": "#regex ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "createdAt": "#regex ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+    }
+  },
+  "requestCard": {
+    "fullName": "Jan",
+    "cardNum": 1234567890987654,
+    "expMonth": "12",
+    "expYear": "2080"
+  },
+  "responseCard" : {
+    "status": "success",
+    "data": {
+      "id": '#number',
+      "fullName": "Jan",
+      "cardNum": 1234567890987654,
+      "expMonth": 12,
+      "expYear": 2080,
+      "UserId": '#number',
+      "updatedAt": "#regex ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "createdAt": "#regex ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+    }
+  }
+}
