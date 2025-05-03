@@ -37,8 +37,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Run Karate tests for ${{ matrix.env }}
-        run: mvn test -Dkarate.env=${{ matrix.env }}
+      - name: Run Karate tests for ${{ matrix.profile }}
+        run: |
+          cd Karate
+          mvn test -Dkarate.env=${{ matrix.profile }}
+
 
       - name: Upload Karate HTML report
         if: always()
