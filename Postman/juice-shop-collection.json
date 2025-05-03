@@ -556,7 +556,12 @@
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
-									"});"
+									"});",
+									"",
+									"let response = pm.response.json();",
+									"let addressId = response.data.id;",
+									"",
+									"pm.environment.set(\"addressId\", addressId);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -661,7 +666,12 @@
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
-									"});"
+									"});",
+									"",
+									"let response = pm.response.json();",
+									"let paymentId = response.data.id;",
+									"",
+									"pm.environment.set(\"paymentId\", paymentId);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -788,7 +798,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"couponData\": \"bnVsbA==\",\r\n\t\"orderDetails\": {\r\n\t\t\"paymentId\": \"7\",\r\n\t\t\"addressId\": \"7\",\r\n\t\t\"deliveryMethodId\": \"1\"\r\n\t}\r\n}",
+							"raw": "{\r\n\t\"couponData\": \"bnVsbA==\",\r\n\t\"orderDetails\": {\r\n\t\t\"paymentId\": \"{{paymentId}}\",\r\n\t\t\"addressId\": \"{{addressId}}\",\r\n\t\t\"deliveryMethodId\": \"1\"\r\n\t}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
