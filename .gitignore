@@ -14,4 +14,7 @@ node_modules/
 Playwright/
 
 # Pytest (not ready yet)
-Pytest/
+Pytest_old/
+
+# Ruff
+.ruff_cache/

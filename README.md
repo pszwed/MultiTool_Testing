@@ -117,3 +117,8 @@ Tests are automated via **GitHub Actions** and triggered manually (`workflow_dis
 | JMeter tests  | `.github/workflows/jmeter-tests.yml` |
 
 HTML reports are uploaded as artifacts after each run.
+
+## About Me
+
+I am a Test Engineer expanding my skills in test automation.   
+Feel free to explore and reach out if you have any questions.
