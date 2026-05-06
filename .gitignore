@@ -18,3 +18,7 @@ Pytest_old/
 
 # Ruff
 .ruff_cache/
+
+# Allure
+allure-results/
+allure-report/
