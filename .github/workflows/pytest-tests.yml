@@ -1,0 +1,40 @@
+name: Pytest Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pytest-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install -r Pytest/requirements.txt
+
+      - name: Run Pytest tests
+        run: |
+          cd Pytest
+          pytest tests/ -v --tb=short --alluredir=allure-results
+
+      - name: Generate Allure report
+        if: always()
+        uses: simple-elf/allure-report-action@v1.7
+        with:
+          allure_results: Pytest/allure-results
+          allure_report: Pytest/allure-report
+
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-allure-report
+          path: Pytest/allure-report
+          if-no-files-found: error
