@@ -1,0 +1,17 @@
+# Swagger file
+swagger.yml
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Node
+node_modules/
+
+# Playwright (not ready yet)
+Playwright/
+
+# Pytest (not ready yet)
+Pytest/
