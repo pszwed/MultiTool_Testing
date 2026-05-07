@@ -19,22 +19,36 @@ jobs:
       - name: Install dependencies
         run: pip install -r Pytest/requirements.txt
 
+      - name: Set up Java (required for Allure CLI)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install Allure CLI
+        run: |
+          wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+          tar -zxvf allure-2.27.0.tgz
+          sudo mv allure-2.27.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure
+          allure --version
+
       - name: Run Pytest tests
         run: |
           cd Pytest
           pytest tests/ -v --tb=short --alluredir=allure-results
+        if: always()
 
       - name: Generate Allure report
         if: always()
-        uses: simple-elf/allure-report-action@v1.7
-        with:
-          allure_results: Pytest/allure-results
-          allure_report: Pytest/allure-report
+        run: |
+          allure generate Pytest/allure-results -o Pytest/allure-report --clean
 
-      - name: Upload Allure report
+      - name: Upload Allure report as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pytest-allure-report
           path: Pytest/allure-report
-          if-no-files-found: error
+          if-no-files-found: warn
+          retention-days: 30
