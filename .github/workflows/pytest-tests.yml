@@ -52,3 +52,11 @@ jobs:
           path: Pytest/allure-report
           if-no-files-found: warn
           retention-days: 30
+
+      - name: Deploy Allure report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: Pytest/allure-report
+          publish_branch: gh-pages
