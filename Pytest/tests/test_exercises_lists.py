@@ -12,6 +12,7 @@ from exercises.exercises_lists import (
     remove_duplicates,
 )
 
+
 class TestGetFirst:
     def test_get_first(self, fellowship):
         assert get_first(fellowship) == "Frodo"
@@ -28,6 +29,7 @@ class TestGetLast:
     def test_get_last_empty_list(self):
         with pytest.raises(IndexError):
             get_last([])
+
 
 def test_count_members(fellowship):
     assert count_members(fellowship) == 5
@@ -88,7 +90,15 @@ class TestMerge:
     def test_merge_fellowships(self, fellowship):
         hobbits = ["Pippin", "Merry"]
         result = merge_fellowships(fellowship, hobbits)
-        assert result == ["Frodo", "Sam", "Gandalf", "Aragorn", "Legolas", "Pippin", "Merry"]
+        assert result == [
+            "Frodo",
+            "Sam",
+            "Gandalf",
+            "Aragorn",
+            "Legolas",
+            "Pippin",
+            "Merry",
+        ]
         assert count_members(result) == 7
 
     def test_merge_fellowships_with_empty(self, fellowship):

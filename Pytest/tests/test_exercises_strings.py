@@ -25,32 +25,44 @@ class TestGreet:
         ],
     )
     def test_greet(self, name, expected):
-        assert greet(name) == expected
+        result = greet(name)
+        assert result == expected
 
     def test_greet_returns_string(self):
-        assert isinstance(greet("Frodo"), str)
+        result = greet("Frodo")
+        assert isinstance(result, str)
 
 
 @pytest.mark.parametrize(
     "name, expected",
-    [("Frodo", "FRODO"), ("Legolas", "LEGOLAS"), ("sauron", "SAURON"), ("", "")],
+    [
+        ("Frodo", "FRODO"),
+        ("Legolas", "LEGOLAS"),
+        ("sauron", "SAURON"),
+        ("", ""),
+    ],
 )
 def test_to_uppercase(name, expected):
-    assert to_uppercase(name) == expected
+    result = to_uppercase(name)
+    assert result == expected
 
 
 class TestIsHobbit:
     def test_frodo_is_hobbit(self):
-        assert is_hobbit("Frodo") is True
+        result = is_hobbit("Frodo")
+        assert result is True
 
     def test_bilbo_is_hobbit(self):
-        assert is_hobbit("Bilbo") is True
+        result = is_hobbit("Bilbo")
+        assert result is True
 
     def test_gandalf_is_not_hobbit(self):
-        assert is_hobbit("Gandalf") is False
+        result = is_hobbit("Gandalf")
+        assert result is False
 
     def test_empty_string(self):
-        assert is_hobbit("") is False
+        result = is_hobbit("")
+        assert result is False
 
 
 class TestGetInitials:
@@ -63,7 +75,8 @@ class TestGetInitials:
         ],
     )
     def test_get_initials(self, first_name, last_name, expected):
-        assert get_initials(first_name, last_name) == expected
+        result = get_initials(first_name, last_name)
+        assert result == expected
 
     def test_get_initials_empty(self):
         with pytest.raises(ValueError):
@@ -80,11 +93,16 @@ class TestGetInitials:
     ],
 )
 def test_count_letter_o(name, expected):
-    assert count_letter_o(name) == expected
+    result = count_letter_o(name)
+    assert result == expected
 
 
 def test_replace_name():
-    assert replace_name("Frodo goes to Mordor", "Frodo", "Sam") == "Sam goes to Mordor"
+    sentence = "Frodo goes to Mordor"
+    old = "Frodo"
+    new = "Sam"
+    result = replace_name(sentence, old, new)
+    assert result == "Sam goes to Mordor"
 
 
 @pytest.mark.parametrize(
@@ -96,7 +114,8 @@ def test_replace_name():
     ],
 )
 def test_split_sentence(sentence, expected):
-    assert split_sentence(sentence) == expected
+    result = split_sentence(sentence)
+    assert result == expected
 
 
 @pytest.mark.parametrize(
@@ -108,7 +127,8 @@ def test_split_sentence(sentence, expected):
     ],
 )
 def test_join_fellowship(names, expected):
-    assert join_fellowship(names) == expected
+    result = join_fellowship(names)
+    assert result == expected
 
 
 @pytest.mark.parametrize(
@@ -121,7 +141,8 @@ def test_join_fellowship(names, expected):
     ],
 )
 def test_is_letters_only(name, expected):
-    assert is_letters_only(name) == expected
+    result = is_letters_only(name)
+    assert result == expected
 
 
 @pytest.mark.parametrize(
@@ -134,7 +155,8 @@ def test_is_letters_only(name, expected):
     ],
 )
 def test_is_capitalized(name, expected):
-    assert is_capitalized(name) == expected
+    result = is_capitalized(name)
+    assert result == expected
 
 
 @pytest.mark.parametrize(
@@ -147,7 +169,8 @@ def test_is_capitalized(name, expected):
     ],
 )
 def test_count_chars_no_spaces(sentence, expected):
-    assert count_chars_no_spaces(sentence) == expected
+    result = count_chars_no_spaces(sentence)
+    assert result == expected
 
 
 @pytest.mark.parametrize(
@@ -160,4 +183,5 @@ def test_count_chars_no_spaces(sentence, expected):
     ],
 )
 def test_reverse_name(name, expected):
-    assert reverse_name(name) == expected
+    result = reverse_name(name)
+    assert result == expected
