@@ -253,7 +253,7 @@ def test_not_common_enemies(enemies, gondors_enemies, name, expected):
 class TestCountRaces:
     def test_count_races(self, races):
         result = count_races(races)
-        assert result["hobbit"] == 3
+        assert result["hobbit"] == 2
         assert result["wizard"] == 1
         assert result["elf"] == 1
         assert isinstance(result, Counter)

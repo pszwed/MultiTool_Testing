@@ -33,13 +33,16 @@ class TestCanEnterShire:
         result = can_enter_shire(age)
         assert isinstance(result, str)
 
-    @pytest.mark.parametrize("age, expected", [
-        (MIN_AGE - 18, TOO_YOUNG_MESSAGE),
-        (MIN_AGE - 1, TOO_YOUNG_MESSAGE),   
-        (MIN_AGE, WELCOME_MESSAGE),  
-        (MIN_AGE + 1, WELCOME_MESSAGE),  
-        (MAX_HOBBIT_AGE, WELCOME_MESSAGE),
-    ])
+    @pytest.mark.parametrize(
+        "age, expected",
+        [
+            (MIN_AGE - 18, TOO_YOUNG_MESSAGE),
+            (MIN_AGE - 1, TOO_YOUNG_MESSAGE),
+            (MIN_AGE, WELCOME_MESSAGE),
+            (MIN_AGE + 1, WELCOME_MESSAGE),
+            (MAX_HOBBIT_AGE, WELCOME_MESSAGE),
+        ],
+    )
     def test_can_enter_shire(self, age, expected):
         result = can_enter_shire(age)
         assert result == expected
@@ -51,24 +54,23 @@ class TestCanEnterShire:
 
     def test_can_enter_shire_missing_age(self):
         with pytest.raises(TypeError):
-            can_enter_shire() 
+            can_enter_shire()
 
 
 class TestClassifyRingBearer:
-    @pytest.mark.parametrize("bearer", [
-        RING_BEARER, 
-        FORMER_RING_BEARER,
-        "Gandalf"
-        ])
+    @pytest.mark.parametrize("bearer", [RING_BEARER, FORMER_RING_BEARER, "Gandalf"])
     def test_classify_ring_bearer_returns_string(self, bearer):
         result = classify_ring_bearer(bearer)
         assert isinstance(result, str)
 
-    @pytest.mark.parametrize("bearer, message", [
-        (RING_BEARER, RING_BEARER_MESSAGE),
-        (FORMER_RING_BEARER, FORMER_RING_BEARER_MESSAGE),
-        ("Gandalf", NOT_RING_BEARER_MESSAGE)
-        ])
+    @pytest.mark.parametrize(
+        "bearer, message",
+        [
+            (RING_BEARER, RING_BEARER_MESSAGE),
+            (FORMER_RING_BEARER, FORMER_RING_BEARER_MESSAGE),
+            ("Gandalf", NOT_RING_BEARER_MESSAGE),
+        ],
+    )
     def test_classify_ring_bearer(self, bearer, message):
         result = classify_ring_bearer(bearer)
         assert result == message
@@ -79,22 +81,24 @@ class TestClassifyRingBearer:
 
 
 class TestCanJoinFellowship:
-    @pytest.mark.parametrize("age, race", [
-        (MIN_FELLOWSHIP_AGE - 1, "hobbit"),
-        (MIN_FELLOWSHIP_AGE, "human")
-    ])
+    @pytest.mark.parametrize(
+        "age, race", [(MIN_FELLOWSHIP_AGE - 1, "hobbit"), (MIN_FELLOWSHIP_AGE, "human")]
+    )
     def test_can_join_fellowship_returns_bool(self, age, race):
         result = can_join_fellowship(age, race)
         assert isinstance(result, bool)
 
-    @pytest.mark.parametrize("age, race, expected", [
-        (MIN_FELLOWSHIP_AGE - 1, "hobbit", False),
-        (MIN_FELLOWSHIP_AGE, "human", True),
-        (MIN_FELLOWSHIP_AGE + 1, "elf", True),
-        (MIN_FELLOWSHIP_AGE - 1, "orc", False),
-        (MIN_FELLOWSHIP_AGE, "orc", False),
-        (MIN_FELLOWSHIP_AGE + 1, "orc", False),
-    ])
+    @pytest.mark.parametrize(
+        "age, race, expected",
+        [
+            (MIN_FELLOWSHIP_AGE - 1, "hobbit", False),
+            (MIN_FELLOWSHIP_AGE, "human", True),
+            (MIN_FELLOWSHIP_AGE + 1, "elf", True),
+            (MIN_FELLOWSHIP_AGE - 1, "orc", False),
+            (MIN_FELLOWSHIP_AGE, "orc", False),
+            (MIN_FELLOWSHIP_AGE + 1, "orc", False),
+        ],
+    )
     def test_can_join_fellowship(self, age, race, expected):
         result = can_join_fellowship(age, race)
         assert result == expected
@@ -110,23 +114,26 @@ class TestCanJoinFellowship:
     @pytest.mark.parametrize("race", VALID_RACES)
     def test_can_join_fellowship_valid_races(self, race):
         result = can_join_fellowship(MIN_FELLOWSHIP_AGE, race)
-        assert result is True 
+        assert result is True
 
 
 class TestGetQuestStatus:
     def test_get_quest_status_returns_string(self):
         result = get_quest_status(READY_THRESHOLD)
-        assert isinstance(result, str) 
+        assert isinstance(result, str)
 
-    @pytest.mark.parametrize("health, expected", [
-        (READY_THRESHOLD + 1, READY_MESSAGE),
-        (READY_THRESHOLD, INJURED_MESSAGE),
-        (INJURED_THRESHOLD + 1, INJURED_MESSAGE),
-        (INJURED_THRESHOLD, CRITICAL_MESSAGE),
-        (CRITICAL_THRESHOLD + 1, CRITICAL_MESSAGE),
-        (CRITICAL_THRESHOLD, DEAD_MESSAGE),
-        (-10, DEAD_MESSAGE),
-    ])
+    @pytest.mark.parametrize(
+        "health, expected",
+        [
+            (READY_THRESHOLD + 1, READY_MESSAGE),
+            (READY_THRESHOLD, INJURED_MESSAGE),
+            (INJURED_THRESHOLD + 1, INJURED_MESSAGE),
+            (INJURED_THRESHOLD, CRITICAL_MESSAGE),
+            (CRITICAL_THRESHOLD + 1, CRITICAL_MESSAGE),
+            (CRITICAL_THRESHOLD, DEAD_MESSAGE),
+            (-10, DEAD_MESSAGE),
+        ],
+    )
     def test_get_quest_status(self, health, expected):
         result = get_quest_status(health)
         assert result == expected
@@ -138,7 +145,7 @@ class TestGetQuestStatus:
 
     def test_get_quest_status_missing_health(self):
         with pytest.raises(TypeError):
-            get_quest_status() 
+            get_quest_status()
 
 
 class TestIsValidHobbit:
@@ -147,17 +154,20 @@ class TestIsValidHobbit:
         result = is_valid_hobbit(name, MIN_HOBBIT_AGE)
         assert isinstance(result, bool)
 
-    @pytest.mark.parametrize("name, age, expected", [
-        ("Frodo", MIN_HOBBIT_AGE - 1, False),   
-        ("Frodo", MIN_HOBBIT_AGE, True),         
-        ("Frodo", MIN_HOBBIT_AGE + 1, True),     
-        ("Frodo", MAX_HOBBIT_AGE - 1, True),     
-        ("Frodo", MAX_HOBBIT_AGE, True),         
-        ("Frodo", MAX_HOBBIT_AGE + 1, False),  
-        ("frodo", MIN_HOBBIT_AGE, False),        
-        ("Frodo2", MIN_HOBBIT_AGE, False),       
-        ("", MIN_HOBBIT_AGE, False),             
-    ])
+    @pytest.mark.parametrize(
+        "name, age, expected",
+        [
+            ("Frodo", MIN_HOBBIT_AGE - 1, False),
+            ("Frodo", MIN_HOBBIT_AGE, True),
+            ("Frodo", MIN_HOBBIT_AGE + 1, True),
+            ("Frodo", MAX_HOBBIT_AGE - 1, True),
+            ("Frodo", MAX_HOBBIT_AGE, True),
+            ("Frodo", MAX_HOBBIT_AGE + 1, False),
+            ("frodo", MIN_HOBBIT_AGE, False),
+            ("Frodo2", MIN_HOBBIT_AGE, False),
+            ("", MIN_HOBBIT_AGE, False),
+        ],
+    )
     def test_is_valid_hobbit(self, name, age, expected):
         result = is_valid_hobbit(name, age)
         assert result == expected

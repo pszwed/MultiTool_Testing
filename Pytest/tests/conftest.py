@@ -50,9 +50,18 @@ def gondors_enemies():
 
 @pytest.fixture
 def races():
-    return ["hobbit", "wizard", "hobbit", "elf", "hobbit"]
+    return ["hobbit", "hobbit", "wizard", "human", "elf"]
 
 
 @pytest.fixture
 def pairs():
     return [("Frodo", "hobbit"), ("Gandalf", "wizard"), ("Aragorn", "human")]
+
+
+@pytest.fixture
+def groups():
+    return [
+        ["Frodo", "Sam", "Pippin", "Merry"],
+        ["Gandalf", "Aragorn", "Boromir"],
+        ["Legolas", "Gimli"],
+    ]
